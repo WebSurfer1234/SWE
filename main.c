@@ -266,7 +266,7 @@ double solvePostFix(QUEUE * postfixQueue) {
                 npush(numStack, res);
             } else if(strcmp(currentElement, "-") == 0) {
                 double val2 = npop(numStack);
-                double val10.4 = npop(numStack);
+                double val1 = npop(numStack);
                 double res = val1 - val2;
                 npush(numStack, res);
             } else if(strcmp(currentElement, "*") == 0) {

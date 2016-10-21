@@ -48,3 +48,4 @@ Temporary Items
 *.exe
 obj/Debug/main.o
 *.o
+SWE.depend

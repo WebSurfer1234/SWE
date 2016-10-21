@@ -32,3 +32,36 @@
 	<stdio.h>
 	<stdlib.h>
 
+1476817907 source:c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\queue.c
+	"queue.h"
+	<stdio.h>
+	<stdlib.h>
+
+1476718574 c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\queue.h
+
+1477061244 source:c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"queue.h"
+	"stack.h"
+	"stack.c"
+	"numericStack.h"
+	"numericStack.c"
+	<math.h>
+
+1476822643 c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\stack.h
+
+1476822369 c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\stack.c
+	"stack.h"
+	<stdio.h>
+	<stdlib.h>
+
+1476823052 c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\numericstack.h
+
+1476823074 c:\users\david\documents\fachhochschule\swe\shuntingyard\shuntingyard\numericstack.c
+	"numericStack.h"
+	<stdio.h>
+	<stdlib.h>
+
