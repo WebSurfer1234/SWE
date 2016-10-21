@@ -8,7 +8,7 @@
 #include "numericStack.h"
 #include "numericStack.c"
 #include <math.h>
-#define BUF 5
+#define BUF 255
 char* readLine() {
     char *input, buffer[BUF];
     fgets(buffer, BUF, stdin);

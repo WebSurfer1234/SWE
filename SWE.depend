@@ -65,3 +65,36 @@
 	<stdio.h>
 	<stdlib.h>
 
+1477062737 source:c:\users\david\documents\fachhochschule\swe\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"queue.h"
+	"stack.h"
+	"stack.c"
+	"numericStack.h"
+	"numericStack.c"
+	<math.h>
+
+1477062676 c:\users\david\documents\fachhochschule\swe\queue.h
+
+1477062676 c:\users\david\documents\fachhochschule\swe\stack.h
+
+1477062676 c:\users\david\documents\fachhochschule\swe\stack.c
+	"stack.h"
+	<stdio.h>
+	<stdlib.h>
+
+1477062676 c:\users\david\documents\fachhochschule\swe\numericstack.h
+
+1477062676 c:\users\david\documents\fachhochschule\swe\numericstack.c
+	"numericStack.h"
+	<stdio.h>
+	<stdlib.h>
+
+1477062676 source:c:\users\david\documents\fachhochschule\swe\queue.c
+	"queue.h"
+	<stdio.h>
+	<stdlib.h>
+
