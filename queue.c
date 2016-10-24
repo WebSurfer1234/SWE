@@ -9,8 +9,7 @@ int enqueue(QUEUE *queue, char *value) {
         queue->last = newElement;
     } else {
         ELEMENT *last = queue->last;
-        last->previous = newElement;
-        newElement->next = last;
+        last->next = newElement;
         queue->last = newElement;
     }
     queue->len++;
@@ -28,9 +27,8 @@ char * dequeue(QUEUE *queue) {
             free(only);
         } else {
             ELEMENT *first = queue->first;
-            ELEMENT *newFirst = first->previous;
+            ELEMENT *newFirst = first->next;
             queue->first = newFirst;
-            newFirst->next = NULL;
             value = first->value;
             free(first);
         }

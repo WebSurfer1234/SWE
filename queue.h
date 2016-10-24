@@ -9,7 +9,6 @@ typedef struct stringQueue {
 typedef struct element {
     char *value;
     struct element *next;
-    struct element *previous;
 } ELEMENT;
 
 

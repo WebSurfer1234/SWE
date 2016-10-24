@@ -65,7 +65,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1477062737 source:c:\users\david\documents\fachhochschule\swe\main.c
+1477294770 source:c:\users\david\documents\fachhochschule\swe\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -77,7 +77,7 @@
 	"numericStack.c"
 	<math.h>
 
-1477062676 c:\users\david\documents\fachhochschule\swe\queue.h
+1477294373 c:\users\david\documents\fachhochschule\swe\queue.h
 
 1477062676 c:\users\david\documents\fachhochschule\swe\stack.h
 
@@ -93,7 +93,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1477062676 source:c:\users\david\documents\fachhochschule\swe\queue.c
+1477294438 source:c:\users\david\documents\fachhochschule\swe\queue.c
 	"queue.h"
 	<stdio.h>
 	<stdlib.h>

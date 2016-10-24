@@ -275,8 +275,8 @@ double solvePostFix(QUEUE * postfixQueue) {
                 double res = val1 * val2;
                 npush(numStack, res);
             } else if(strcmp(currentElement, "/") == 0) {
-                double val1 = npop(numStack);
                 double val2 = npop(numStack);
+                double val1 = npop(numStack);
                 double res = val1 / val2;
                 npush(numStack, res);
             } else if(strcmp(currentElement, "^") == 0) {
@@ -308,17 +308,6 @@ int main()
     free(postfixQueue);
     printf("%f", result);
     return 0;
-}
-
-int main2()
-{
-    char * line;
-    while(1) {
-        line = readLine();
-        int size = strlen(line);
-        printf("%d\n", isNumeric(line));
-        free(line);
-    }
 }
 
 
