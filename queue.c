@@ -1,3 +1,17 @@
+/**
+ * file: queue.c
+ *
+ * date: 2016-10-24
+ * progtimeest.: 60 min
+ * progtimereal: 30 min
+ * author: David Seidl
+ * email: dseidl.its-b2016@fh-salzburg.ac.at
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE1-ILV/B, exercise 1
+ *
+ */
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>

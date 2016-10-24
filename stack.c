@@ -1,3 +1,17 @@
+/**
+ * file: RectAU.c
+ *
+ * date: 2016-10-24
+ * progtimeest.: 10 min
+ * progtimereal: 9 min
+ * author: David Seidl
+ * email: dseidl.its-b2016@fh-salzburg.ac.at
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE1-ILV/B, exercise 1
+ *
+ */
 #include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
