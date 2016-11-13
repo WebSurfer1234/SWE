@@ -37,9 +37,6 @@
 		<Unit filename="RectAU.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="numericStack.c">
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
@@ -53,11 +50,18 @@
 		<Unit filename="queue.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="shuntingyard.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="stack.c">
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="stack.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="swe2.c">
+			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Extensions>
