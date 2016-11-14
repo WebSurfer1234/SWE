@@ -1,64 +1,325 @@
+/**
+ * file: main.c
+ *
+ * date: 2016-10-24
+ * progtimeest.: 180 min
+ * progtimereal: 300 min
+ * author: David Seidl
+ * email: dseidl.its-b2016@fh-salzburg.ac.at
+ *
+ * Salzburg University of Applied Sciences
+ * Information Technology & Systems Management
+ * SWE1-ILV/B, exercise 1
+ *
+ */
 #include <stdio.h>
-typedef struct element {
-    int value;
-    struct element * right;
-    struct element * left;
-} Element;
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include "queue.h"
+#include "stack.h"
+#include "stack.c"
+#include "numericStack.h"
+#include "numericStack.c"
+#include <math.h>
+#define BUF 255
+char* readLine() {
+    char *input, buffer[BUF];
+    fgets(buffer, BUF, stdin);
+    if(!strstr(buffer, "\n")) {
+        input = malloc((BUF) * sizeof(char));
+        strcpy(input, buffer);
+        size_t size = BUF;
+        while(1) {
+            fgets(buffer, BUF, stdin);
+            if(strstr(buffer, "\n") != NULL) {
+                int i = strcspn (buffer, "\n");
+                size = size + i;
+                input = realloc(input, size);
+                strncat(input, buffer, i);
+                input[size - 1] = '\0';
+                break;
+            } else {
+                size = size + BUF - 1;
+                input = realloc(input, size * sizeof(char));
+                strcat(input, buffer);
+            }
+        }
+    } else {
+        int i = strcspn (buffer, "\n");
+        input = malloc((i + 1) * sizeof(char));
+        strncpy(input, buffer, i);
+        input[i] = '\0';
+    }
+    return input;
+}
 
-int insert(Element * element, int value) {
-    if(element->value == value) {
+bool isNumeric(char * value) {
+    int i = 0;
+    int size = strlen(value);
+    bool hasComma = false;
+    for(i; i < size; i++) {
+        switch(value[i]) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                break;
+            case '.':
+                if(hasComma) {
+                    //not Numeric ERROR
+                    return NULL;
+                } else {
+                    hasComma = true;
+                }
+                break;
+            case '+':
+            case '-':
+                if(!(i == 0 && size > 1)) {
+                    return false;
+                }
+                break;
+            default:
+                return false;
+        }
+    }
+    return true;
+}
+
+int getOpportunity(char * operatorElement) {
+    if(strcmp(operatorElement, "+") == 0 || strcmp(operatorElement, "-") == 0) {
         return 0;
+    } else if(strcmp(operatorElement, "*") == 0 || strcmp(operatorElement, "/") == 0) {
+        return 1;
+    } else if(strcmp(operatorElement, "^") == 0) {
+        return 2;
+    } else if(strcmp(operatorElement, "(") == 0) {
+        return 10; //sicherheitshalber
     } else {
-        if(element->value < value) {
-            if(element->right != NULL) {
-                return insert(element->right, value);
-            } else {
-                Element * newElement = malloc(sizeof(Element));
-                newElement->left = NULL;
-                newElement->right = NULL;
-                newElement->value = value;
-                element->right = newElement;
-                return 1;
-            }
-        } else {
-            if(element->left != NULL) {
-                return insert(element->left, value);
-            } else {
-                Element * newElement = malloc(sizeof(Element));
-                newElement->left = NULL;
-                newElement->right = NULL;
-                newElement->value = value;
-                element->left = newElement;
-                return 1;
-            }
-        }
+        //unknown Operator
+        return NULL;
     }
 }
 
-void print(Element * node) {
-    if(node->left != NULL) {
-        print(node->left);
-    } else {
-        printf("%d", node->value);
-        if(node->right != NULL) {
-            print(node->right);
+QUEUE * getInfix(char * calculation) {
+    int i = 0;
+    bool readNumber = false;
+    bool readOperator = false;
+    bool nextOperatorCanBelongToNumber = true;
+    bool addAfterFor = true;
+    char *term = NULL;
+    QUEUE *inputQueue = malloc(sizeof(QUEUE));
+    inputQueue->len = 0;
+    for(i; i < strlen(calculation); i++) {
+        switch(calculation[i]) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '.':
+            addAfterFor = true;
+            nextOperatorCanBelongToNumber = false;
+            if(!readNumber) {
+                if(readOperator) {
+                    //operator wurde gelesen
+                    enqueue(inputQueue, term);
+                    readOperator = false;
+                }
+                //Achtung bei . als erstes Zeichn nicht sicher ob es funktioniert
+                readNumber = true;
+                term = malloc(2 * sizeof(char));
+                term[0] = calculation[i];
+                term[1] = '\0';
+            } else {
+                int size = strlen(term);
+                term = realloc(term, (size + 2) * sizeof(char));
+                term[size] = calculation[i];
+                term[size + 1] = '\0';
+            }
+            break;
+        case '+':
+        case '-':
+            if(nextOperatorCanBelongToNumber) {
+                addAfterFor = true;
+                nextOperatorCanBelongToNumber = false;
+                if(readOperator) {
+                    //operator wurde gelesen
+                    enqueue(inputQueue, term);
+                    readOperator = false;
+                }
+                readNumber = true;
+                term = malloc(2 * sizeof(char));
+                term[0] = calculation[i];
+                term[1] = '\0';
+            } else {
+            addAfterFor = false;
+            if(readOperator || readNumber) {
+                enqueue(inputQueue, term);
+                readNumber = false;
+                readOperator = false;
+            }
+            term = malloc(2 * sizeof(char));
+            term[0] = calculation[i];
+            term[1] = '\0';
+            enqueue(inputQueue, term);
+            }
+            break;
+        case '(':
+        case ')':
+        case '*':
+        case '/':
+        case '^':
+            addAfterFor = false;
+            if(calculation[i] == ')') {
+                nextOperatorCanBelongToNumber = false;
+            } else {
+                nextOperatorCanBelongToNumber = true;
+            }
+            if(readOperator || readNumber) {
+                enqueue(inputQueue, term);
+                readNumber = false;
+                readOperator = false;
+            }
+            term = malloc(2 * sizeof(char));
+            term[0] = calculation[i];
+            term[1] = '\0';
+            enqueue(inputQueue, term);
+            break;
+        default:
+            addAfterFor = true;
+            nextOperatorCanBelongToNumber = true;
+            if(!readOperator) {
+                if(readNumber) {
+                    enqueue(inputQueue, term);
+                    readNumber = false;
+                }
+                readOperator = true;
+                term = malloc(2 * sizeof(char));
+                term[0] = calculation[i];
+                term[1] = '\0';
+            } else {
+                int size = strlen(term);
+                term = realloc(term, (size + 2) * sizeof(char));
+                term[size] = calculation[i];
+                term[size + 1] = '\0';
+            }
+            break;
         }
     }
-}
-int main() {
-    int size = 0;
-    Element * root = malloc(sizeof(Element));
-    root->left = NULL;
-    root->right = NULL;
-    root->value = 100;
-    printf("Unsortiert: ");
-    int i;
-    for(i = 0; i < 10; i++) {
-        int val =  rand() % 200 + 1;
-        printf("%d", val);
-        insert(root, val);
+    if(addAfterFor) {
+        enqueue(inputQueue, term);
     }
-    print(root);
-    printf("\n\nSortiert: ");
+    return inputQueue;
+}
+
+QUEUE * shuntingYard(QUEUE * infixNotation) {
+    QUEUE * postfixNotation = malloc(sizeof(QUEUE));
+    postfixNotation->len = 0;
+    STACK * operatorStack = malloc(sizeof(STACK));
+    operatorStack->len = 0;
+    char * currentElement = NULL;
+    while(infixNotation->len > 0) {
+        currentElement = dequeue(infixNotation);
+        if(isNumeric(currentElement)) {
+            enqueue(postfixNotation, currentElement);
+        } else if(strcmp(currentElement, ")") == 0) {
+            while(strcmp(top(operatorStack), "(") != 0 && operatorStack->len > 0) {
+                enqueue(postfixNotation, pop(operatorStack));
+            }
+            free(pop(operatorStack));
+            free(currentElement);
+        } else {
+            if(operatorStack->len == 0) {
+                push(operatorStack, currentElement);
+            } else {
+                int opportunity = getOpportunity(currentElement);
+                int stackTopOpportunity = getOpportunity(top(operatorStack));
+                while(opportunity <= stackTopOpportunity && strcasecmp(top(operatorStack), "(") != 0) {
+                    enqueue(postfixNotation, pop(operatorStack));
+                    if(operatorStack->len == 0) {
+                        break;
+                    } else {
+                        stackTopOpportunity = getOpportunity(top(operatorStack));
+                    }
+                }
+                push(operatorStack, currentElement);
+            }
+        }
+    }
+    while(operatorStack->len > 0) {
+        enqueue(postfixNotation, pop(operatorStack));
+    }
+    free(operatorStack);
+    return postfixNotation;
+}
+
+double solvePostFix(QUEUE * postfixQueue) {
+    NUMERIC_STACK * numStack = malloc(sizeof(NUMERIC_STACK));
+    numStack->len = 0;
+    while(postfixQueue->len > 0) {
+        char * currentElement = dequeue(postfixQueue);
+        if(isNumeric(currentElement)) {
+            npush(numStack, atof(currentElement)); //geht evtln nicht weil wert keinen reservierten Speicher hat
+        } else {
+            if(strcmp(currentElement, "+") == 0) {
+                double val1 = npop(numStack);
+                double val2 = npop(numStack);
+                double res = val1 + val2;
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "-") == 0) {
+                double val2 = npop(numStack);
+                double val1 = npop(numStack);
+                double res = val1 - val2;
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "*") == 0) {
+                double val1 = npop(numStack);
+                double val2 = npop(numStack);
+                double res = val1 * val2;
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "/") == 0) {
+                double val2 = npop(numStack);
+                double val1 = npop(numStack);
+                double res = val1 / val2;
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "^") == 0) {
+                double val1 = npop(numStack);
+                double val2 = npop(numStack);
+                double res = pow(val1, val2);
+                npush(numStack, res);
+            }
+        }
+        free(currentElement);
+    }
+    double result = npop(numStack);
+    free(numStack);
+    return result;
+}
+
+int main()
+{
+    printf("Bitte geben Sie eine Rechnung ein: ");
+    char* calculation = readLine();
+    QUEUE * inputQueue = getInfix(calculation);
+    free(calculation);
+    QUEUE * postfixQueue = shuntingYard(inputQueue);
+    /*while(postfixQueue->len > 0) {
+        printf("%s, ", dequeue(postfixQueue));
+    }*/
+    free(inputQueue);
+    double result = solvePostFix(postfixQueue);
+    free(postfixQueue);
+    printf("%f", result);
     return 0;
 }
