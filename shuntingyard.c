@@ -95,7 +95,8 @@ bool isNumeric(char * value) {
 int getOpportunity(char * operatorElement) {
     if(strcmp(operatorElement, "+") == 0 || strcmp(operatorElement, "-") == 0) {
         return 0;
-    } else if(strcmp(operatorElement, "*") == 0 || strcmp(operatorElement, "/") == 0) {
+    } else if(strcmp(operatorElement, "*") == 0 || strcmp(operatorElement, "/") == 0 || strcmp(operatorElement, "sin") == 0 || strcmp(operatorElement, "cos") == 0 ||
+              strcmp(operatorElement, "tan") == 0 || strcmp(operatorElement, "asin") == 0 || strcmp(operatorElement, "acos") == 0 || strcmp(operatorElement, "atan") == 0) {
         return 1;
     } else if(strcmp(operatorElement, "^") == 0) {
         return 2;
@@ -234,6 +235,10 @@ QUEUE * shuntingYard(QUEUE * infixNotation) {
         currentElement = dequeue(infixNotation);
         if(isNumeric(currentElement)) {
             enqueue(postfixNotation, currentElement);
+        } else if(strcmp(currentElement, "pi") == 0) {
+            currentElement = realloc(currentElement, 23 * sizeof(char));
+            strcpy(currentElement, "3.14159265358979323846");
+            enqueue(postfixNotation, currentElement);
         } else if(strcmp(currentElement, ")") == 0) {
             while(strcmp(top(operatorStack), "(") != 0 && operatorStack->len > 0) {
                 enqueue(postfixNotation, pop(operatorStack));
@@ -294,9 +299,33 @@ double solvePostFix(QUEUE * postfixQueue) {
                 double res = val1 / val2;
                 npush(numStack, res);
             } else if(strcmp(currentElement, "^") == 0) {
-                double val1 = npop(numStack);
                 double val2 = npop(numStack);
+                double val1 = npop(numStack);
                 double res = pow(val1, val2);
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "sin") == 0) {
+                double val = npop(numStack);
+                double res = sin(val);
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "cos") == 0) {
+                double val = npop(numStack);
+                double res = cos(val);
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "tan") == 0) {
+                double val = npop(numStack);
+                double res = tan(val);
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "asin") == 0) {
+                double val = npop(numStack);
+                double res = asin(val);
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "acos") == 0) {
+                double val = npop(numStack);
+                double res = acos(val);
+                npush(numStack, res);
+            } else if(strcmp(currentElement, "atan") == 0) {
+                double val = npop(numStack);
+                double res = atan(val);
                 npush(numStack, res);
             }
         }
